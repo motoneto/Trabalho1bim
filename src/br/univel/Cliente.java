@@ -11,6 +11,17 @@ public class Cliente {
 	@Coluna(nome="CLTELEFONE")
 	private String telefone;
 	//private EstadoCivil estadoCivil = EstadoCivil.CASADO;
+	public Cliente() {
+		this(0, null, null, null, null);
+	}
+
+	public Cliente(int id, String nome, String endereço, String telefone, Object object) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.nome = endereço;
+		this.nome = telefone;
+	}
 	
 	public int getId() {
 		return id;

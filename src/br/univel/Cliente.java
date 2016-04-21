@@ -6,7 +6,9 @@ public class Cliente {
 	private int id;
 	@Coluna(nome="CLNOME")
 	private String nome;
+	@Coluna(nome="CLENDEREÇO")
 	private String endereço;
+	@Coluna(nome="CLTELEFONE")
 	private String telefone;
 	//private EstadoCivil estadoCivil = EstadoCivil.CASADO;
 	

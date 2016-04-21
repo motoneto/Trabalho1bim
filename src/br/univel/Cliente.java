@@ -1,11 +1,15 @@
 package br.univel;
 
+@Tabela("CAD_CLIENTE")
 public class Cliente {
-
+	@Coluna(pk=true)
 	private int id;
+	@Coluna(nome="CLNOME")
 	private String nome;
 	private String endereço;
 	private String telefone;
+	//private EstadoCivil estadoCivil = EstadoCivil.CASADO;
+	
 	public int getId() {
 		return id;
 	}

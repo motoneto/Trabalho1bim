@@ -272,7 +272,7 @@ public class SqlGenImpl extends SqlGen{
 			nomeTabela = cl.getSimpleName().toUpperCase();
 
 		}
-		sb.append("SELECT * FROM ").append(nomeTabela);
+		sb.append("SELECT * FROM ").append(nomeTabela).append("WHERE ID = 1");
 		
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);
@@ -292,14 +292,66 @@ public class SqlGenImpl extends SqlGen{
 
 	@Override
 	protected PreparedStatement getSqlUpdateById(Connection con, Object obj) {
-		// TODO Auto-generated method stub
-		return null;
+		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
+		StringBuilder sb = new StringBuilder();
+		String nomeTabela;
+		if (cl.isAnnotationPresent(Tabela.class)) {
+
+			Tabela anotacaoTabela = cl.getAnnotation(Tabela.class);
+			nomeTabela = anotacaoTabela.value();
+
+		} else {
+			nomeTabela = cl.getSimpleName().toUpperCase();
+
+		}
+		sb.append("UPDATE").append(nomeTabela).append("NOME = 'MAURICIO' WHERE ID = 1");
+		
+		String strSql = sb.toString();
+		System.out.println("SQL GERADO: " + strSql);
+
+		PreparedStatement ps = null;
+	try{
+		ps = con.prepareStatement(strSql);
+
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} catch (IllegalArgumentException e) {
+		e.printStackTrace();
+	}
+
+		return ps;
 	}
 
 	@Override
 	protected PreparedStatement getSqlDeleteById(Connection con, Object obj) {
-		// TODO Auto-generated method stub
-		return null;
+		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
+		StringBuilder sb = new StringBuilder();
+		String nomeTabela;
+		if (cl.isAnnotationPresent(Tabela.class)) {
+
+			Tabela anotacaoTabela = cl.getAnnotation(Tabela.class);
+			nomeTabela = anotacaoTabela.value();
+
+		} else {
+			nomeTabela = cl.getSimpleName().toUpperCase();
+
+		}
+		sb.append("DELETE FROM").append(nomeTabela).append("WHERE ID = 1");
+		
+		String strSql = sb.toString();
+		System.out.println("SQL GERADO: " + strSql);
+
+		PreparedStatement ps = null;
+	try{
+		ps = con.prepareStatement(strSql);
+
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} catch (IllegalArgumentException e) {
+		e.printStackTrace();
+	}
+
+		return ps;
 	}
 	public static void main(String[] args){
 		Cliente c = new Cliente();

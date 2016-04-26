@@ -5,19 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Execute {
-	private static void abrirConexao() throws SQLException {
-
-		String url = "jdbc:h2:~/BancoMauricio";
-		String user = "sa";
-		String pass = "sa";
-		Connection con = DriverManager.getConnection(url, user, pass);
-
-	}
 
 	public static void main(String[] args) throws SQLException {
 		Dao d = new Daoimpl();
 		Cliente c = new Cliente();
-		abrirConexao();
 		c.setId(1);
 		c.setNome("Mau");
 		c.setTelefone("123456");

@@ -14,8 +14,6 @@ public class SqlGenImpl extends SqlGen{
 
 			StringBuilder sb = new StringBuilder();
 
-			// Declaração da tabela.
-			{
 				String nomeTabela;
 				if (cl.isAnnotationPresent(Tabela.class)) {
 					Tabela anotacaoTabela = cl.getAnnotation(Tabela.class);
@@ -25,13 +23,10 @@ public class SqlGenImpl extends SqlGen{
 				}
 				
 				sb.append("CREATE TABLE ").append(nomeTabela).append(" (");
-			}
 
 			Field[] atributos = cl.getDeclaredFields();
 
-			// Declaração das colunas
-			{
-				for (int i = 0; i < atributos.length; i++) {
+			for (int i = 0; i < atributos.length; i++) {
 
 					Field field = atributos[i];
 
@@ -69,10 +64,6 @@ public class SqlGenImpl extends SqlGen{
 
 					sb.append("\n\t").append(nomeColuna).append(' ').append(tipoColuna);
 				}
-			}
-
-			// Declaração das chaves primárias
-			{
 
 				sb.append(",\n\tPRIMARY KEY( ");
 
@@ -103,8 +94,7 @@ public class SqlGenImpl extends SqlGen{
 				}
 
 				sb.append(" )");
-			}
-
+			
 			sb.append("\n);");
 
 			return sb.toString();

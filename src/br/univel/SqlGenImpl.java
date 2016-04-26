@@ -1,6 +1,7 @@
 package br.univel;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -9,33 +10,9 @@ import br.univel.EstadoCivil;
 
 public class SqlGenImpl extends SqlGen{
 
-	/*private Connection con;
-	
-	private void StartConnection() throws SQLException {
-
-		String url = "jdbc:h2:C:/Users/admins/Desktop/Banco de dados/agenda";
-		String user = "sa";
-		String pass = "sa";
-
-		setCon(DriverManager.getConnection(url, user, pass));
-
-	}
-
-	public Connection getCon() {
-		return con;
-	}
-
-	public void setCon(Connection con) {
-		this.con = con;
-	}
-
-	private void CloseConnection() throws SQLException {
-		getCon().close();
-	}*/
 	@Override
 	protected String getCreateTable(Connection con, Object obj) {
-		@SuppressWarnings("unchecked")
-		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
+		Class<?> cl = obj.getClass();
 		try {
 
 			StringBuilder sb = new StringBuilder();
@@ -48,7 +25,7 @@ public class SqlGenImpl extends SqlGen{
 					nomeTabela = cl.getSimpleName().toUpperCase();
 				}
 				
-				sb.append("CREATE TABLE ").append(nomeTabela).append(" (");
+				sb.append("CREATE TABLE ").append(nomeTabela).append("(");
 
 			Field[] atributos = cl.getDeclaredFields();
 
@@ -89,10 +66,10 @@ public class SqlGenImpl extends SqlGen{
 						sb.append(",");
 					}
 
-					sb.append("\n\t").append(nomeColuna).append(' ').append(tipoColuna);
+					sb.append(nomeColuna).append(' ').append(tipoColuna);
 				}
 
-				sb.append(",\n\tPRIMARY KEY( ");
+				sb.append(", PRIMARY KEY( ");
 
 				for (int i = 0, achou = 0; i < atributos.length; i++) {
 
@@ -122,10 +99,9 @@ public class SqlGenImpl extends SqlGen{
 
 				sb.append(" )");
 			
-			sb.append("\n);");
-
+			sb.append(" );");
+			System.out.println("SQL GERADO: " + sb.toString());
 			return sb.toString();
-
 		} catch (SecurityException e) {
 			throw new RuntimeException(e);
 		}
@@ -133,8 +109,7 @@ public class SqlGenImpl extends SqlGen{
 	
 	@Override
 	protected String getDropTable(Connection con, Object obj) {
-		@SuppressWarnings("unchecked")
-		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
+		Class<?> cl = obj.getClass();
 		StringBuilder sb = new StringBuilder();
 		
 		String nomeTabela;
@@ -147,15 +122,19 @@ public class SqlGenImpl extends SqlGen{
 		}
 		
 		sb.append("DROP TABLE ").append(nomeTabela);
+		System.out.println("SQL GERADO: " + sb.toString());
 		return sb.toString();
 	}
 
 	@Override
 	protected PreparedStatement getSqlInsert(Connection con, Object obj) {
-		@SuppressWarnings("unchecked")
-		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
-
+		Class<?> cl = obj.getClass();
 		StringBuilder sb = new StringBuilder();
+		
+		Method[] vetorM = cl.getMethods(); 
+		for (Method m : vetorM){
+			
+		}
 		
 			String nomeTabela;
 			if (cl.isAnnotationPresent(Tabela.class)) {
@@ -167,7 +146,7 @@ public class SqlGenImpl extends SqlGen{
 				nomeTabela = cl.getSimpleName().toUpperCase();
 
 			}
-			sb.append("INSERT INTO ").append(nomeTabela).append(" (");
+			sb.append("INSERT INTO ").append(nomeTabela).append("(");
 		
 
 		Field[] atributos = cl.getDeclaredFields();
@@ -200,16 +179,10 @@ public class SqlGenImpl extends SqlGen{
 			}
 		}
 
-		sb.append(") VALUES (");
-
-		for (int i = 0; i < atributos.length; i++) {
-			if (i > 0) {
-				sb.append(", ");
-			}
-			sb.append('?');
-		}
+		sb.append(")VALUES(");
+		Cliente clie = (Cliente) obj;
+		sb.append(clie.getId()+",'"+clie.getNome()+"','"+clie.getEndereço()+"','"+clie.getTelefone()+"','"+clie.getEstadoCivil()+"'");
 		sb.append(')');
-
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);
 
@@ -247,8 +220,7 @@ public class SqlGenImpl extends SqlGen{
 
 	@Override
 	protected PreparedStatement getSqlSelectAll(Connection con, Object obj) {
-		@SuppressWarnings("unchecked")
-		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
+		Class<?> cl = obj.getClass();
 		StringBuilder sb = new StringBuilder();
 		String nomeTabela;
 		if (cl.isAnnotationPresent(Tabela.class)) {
@@ -261,10 +233,8 @@ public class SqlGenImpl extends SqlGen{
 
 		}
 		sb.append("SELECT * FROM ").append(nomeTabela);
-		
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);
-
 		PreparedStatement ps = null;
 	try{
 		ps = con.prepareStatement(strSql);
@@ -280,8 +250,7 @@ public class SqlGenImpl extends SqlGen{
 
 	@Override
 	protected PreparedStatement getSqlSelectById(Connection con, Object obj) {
-		@SuppressWarnings("unchecked")
-		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
+		Class<?> cl = obj.getClass();
 		StringBuilder sb = new StringBuilder();
 		String nomeTabela;
 		if (cl.isAnnotationPresent(Tabela.class)) {
@@ -294,9 +263,8 @@ public class SqlGenImpl extends SqlGen{
 
 		}
 		sb.append("SELECT * FROM ").append(nomeTabela).append("WHERE ID = 1");
-		
+		System.out.println("SQL GERADO: " + sb.toString());
 		String strSql = sb.toString();
-		System.out.println("SQL GERADO: " + strSql);
 
 		PreparedStatement ps = null;
 	try{
@@ -313,8 +281,7 @@ public class SqlGenImpl extends SqlGen{
 
 	@Override
 	protected PreparedStatement getSqlUpdateById(Connection con, Object obj) {
-		@SuppressWarnings("unchecked")
-		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
+		Class<?> cl = obj.getClass();
 		StringBuilder sb = new StringBuilder();
 		String nomeTabela;
 		if (cl.isAnnotationPresent(Tabela.class)) {
@@ -326,7 +293,7 @@ public class SqlGenImpl extends SqlGen{
 			nomeTabela = cl.getSimpleName().toUpperCase();
 
 		}
-		sb.append("UPDATE").append(nomeTabela).append("NOME = 'MAURICIO' WHERE ID = 1");
+		sb.append("UPDATE ").append(nomeTabela).append(" NOME = 'MAURICIO' WHERE(ID = 1)");
 		
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);
@@ -346,8 +313,7 @@ public class SqlGenImpl extends SqlGen{
 
 	@Override
 	protected PreparedStatement getSqlDeleteById(Connection con, Object obj) {
-		@SuppressWarnings("unchecked")
-		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
+		Class<?> cl = obj.getClass();
 		StringBuilder sb = new StringBuilder();
 		String nomeTabela;
 		if (cl.isAnnotationPresent(Tabela.class)) {
@@ -359,7 +325,7 @@ public class SqlGenImpl extends SqlGen{
 			nomeTabela = cl.getSimpleName().toUpperCase();
 
 		}
-		sb.append("DELETE FROM").append(nomeTabela).append("WHERE ID = 1");
+		sb.append("DELETE FROM ").append(nomeTabela).append(" WHERE (ID = 1)");
 		
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);
@@ -376,7 +342,5 @@ public class SqlGenImpl extends SqlGen{
 
 		return ps;
 	}
-	public static void main(String[] args){
-		
-	}
+	
 }

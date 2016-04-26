@@ -5,10 +5,36 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import br.univel.EstadoCivil;
+
 public class SqlGenImpl extends SqlGen{
 
+	/*private Connection con;
+	
+	private void StartConnection() throws SQLException {
+
+		String url = "jdbc:h2:C:/Users/admins/Desktop/Banco de dados/agenda";
+		String user = "sa";
+		String pass = "sa";
+
+		setCon(DriverManager.getConnection(url, user, pass));
+
+	}
+
+	public Connection getCon() {
+		return con;
+	}
+
+	public void setCon(Connection con) {
+		this.con = con;
+	}
+
+	private void CloseConnection() throws SQLException {
+		getCon().close();
+	}*/
 	@Override
 	protected String getCreateTable(Connection con, Object obj) {
+		@SuppressWarnings("unchecked")
 		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
 		try {
 
@@ -53,7 +79,8 @@ public class SqlGenImpl extends SqlGen{
 
 					} else if (tipoParametro.equals(int.class)) {
 						tipoColuna = "INT";
-
+					} else if (tipoParametro.equals(EstadoCivil.class)) {
+						tipoColuna = "INT(1)";	
 					} else {
 						tipoColuna = "DESCONHECIDO";
 					}
@@ -106,6 +133,7 @@ public class SqlGenImpl extends SqlGen{
 	
 	@Override
 	protected String getDropTable(Connection con, Object obj) {
+		@SuppressWarnings("unchecked")
 		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
 		StringBuilder sb = new StringBuilder();
 		
@@ -124,6 +152,7 @@ public class SqlGenImpl extends SqlGen{
 
 	@Override
 	protected PreparedStatement getSqlInsert(Connection con, Object obj) {
+		@SuppressWarnings("unchecked")
 		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
 
 		StringBuilder sb = new StringBuilder();
@@ -218,6 +247,7 @@ public class SqlGenImpl extends SqlGen{
 
 	@Override
 	protected PreparedStatement getSqlSelectAll(Connection con, Object obj) {
+		@SuppressWarnings("unchecked")
 		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
 		StringBuilder sb = new StringBuilder();
 		String nomeTabela;
@@ -250,6 +280,7 @@ public class SqlGenImpl extends SqlGen{
 
 	@Override
 	protected PreparedStatement getSqlSelectById(Connection con, Object obj) {
+		@SuppressWarnings("unchecked")
 		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
 		StringBuilder sb = new StringBuilder();
 		String nomeTabela;
@@ -282,6 +313,7 @@ public class SqlGenImpl extends SqlGen{
 
 	@Override
 	protected PreparedStatement getSqlUpdateById(Connection con, Object obj) {
+		@SuppressWarnings("unchecked")
 		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
 		StringBuilder sb = new StringBuilder();
 		String nomeTabela;
@@ -314,6 +346,7 @@ public class SqlGenImpl extends SqlGen{
 
 	@Override
 	protected PreparedStatement getSqlDeleteById(Connection con, Object obj) {
+		@SuppressWarnings("unchecked")
 		Class<Cliente> cl = (Class<Cliente>) obj.getClass();
 		StringBuilder sb = new StringBuilder();
 		String nomeTabela;
@@ -344,6 +377,6 @@ public class SqlGenImpl extends SqlGen{
 		return ps;
 	}
 	public static void main(String[] args){
-		Cliente c = new Cliente();
+		
 	}
 }

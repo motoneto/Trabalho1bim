@@ -1,6 +1,5 @@
 package br.univel;
 
-import java.sql.Connection;
 import java.util.List;
 
 public interface Dao<T, K> {

@@ -68,9 +68,6 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 		s.getSqlSelectAll(con, k);
 		return null;
 	}
-	public static void main(String[] args) {
-		SqlGen s = new SqlGenImpl();
-	}
 	@Override
 	public void create(T t) {
 		SqlGen s = new SqlGenImpl();

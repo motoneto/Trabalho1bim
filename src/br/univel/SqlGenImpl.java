@@ -293,7 +293,7 @@ public class SqlGenImpl extends SqlGen{
 			nomeTabela = cl.getSimpleName().toUpperCase();
 
 		}
-		sb.append("UPDATE ").append(nomeTabela).append(" NOME = 'MAURICIO' WHERE(ID = 1)");
+		sb.append("UPDATE ").append(nomeTabela).append(" SET CLNOME = 'MAURICIO' WHERE id = 6");
 		
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);

@@ -2,6 +2,7 @@ package br.univel;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -21,10 +22,11 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 		Connection con = null;
 		try {
 			con = abrirConexao();
+			PreparedStatement psInsert = s.getSqlInsert(con, t);
+			psInsert.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		s.getSqlInsert(con, t);
 	}
 	@Override
 	public void atualizar(T t) {

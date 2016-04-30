@@ -181,7 +181,7 @@ public class SqlGenImpl extends SqlGen{
 
 		sb.append(")VALUES(");
 		Cliente clie = (Cliente) obj;
-		sb.append(clie.getId()+",'"+clie.getNome()+"','"+clie.getEndereço()+"','"+clie.getTelefone()+"','"+clie.getEstadoCivil()+"'");
+		sb.append("?,'"+clie.getNome()+"','"+clie.getEndereço()+"','"+clie.getTelefone()+"','"+clie.getEstadoCivil()+"'");
 		sb.append(')');
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);

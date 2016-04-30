@@ -46,7 +46,8 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 		Connection con = null;
 		try {
 			con = abrirConexao();
-			s.getDropTable(con, t);
+			PreparedStatement psInsert =s.getDropTable(con, t);
+			psInsert.execute();	
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -75,7 +76,8 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 		Connection con = null;
 		try {
 			con = abrirConexao();
-			s.getCreateTable(con, t);
+			PreparedStatement psInsert = s.getCreateTable(con, t);
+			psInsert.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

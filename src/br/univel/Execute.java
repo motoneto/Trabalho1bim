@@ -22,7 +22,6 @@ public class Execute {
 		d.buscar(c);
 		d.delete(c);
 //		d.listarTodos();
-//		CREATE TABLE CAD_CLIENTE(ID INT,CLNOME VARCHAR(100),CLENDEREÇO VARCHAR(100),CLTELEFONE VARCHAR(100),CLESTADOCIVIL VARCHAR(100), PRIMARY KEY( ID ) )
 	}
 	
 }

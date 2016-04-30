@@ -11,7 +11,7 @@ import br.univel.EstadoCivil;
 public class SqlGenImpl extends SqlGen{
 
 	@Override
-	protected String getCreateTable(Connection con, Object obj) {
+	protected PreparedStatement getCreateTable(Connection con, Object obj) {
 		Class<?> cl = obj.getClass();
 		try {
 
@@ -100,15 +100,27 @@ public class SqlGenImpl extends SqlGen{
 				sb.append(" )");
 			
 			sb.append(" );");
-			System.out.println("SQL GERADO: " + sb.toString());
-			return sb.toString();
+			String strSql = sb.toString();
+			System.out.println("SQL GERADO: " + strSql);
+
+			PreparedStatement ps = null;
+			try {
+				ps = con.prepareStatement(strSql);
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			}
+
+			return ps;
 		} catch (SecurityException e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
 	@Override
-	protected String getDropTable(Connection con, Object obj) {
+	protected PreparedStatement getDropTable(Connection con, Object obj) {
 		Class<?> cl = obj.getClass();
 		StringBuilder sb = new StringBuilder();
 		
@@ -121,10 +133,21 @@ public class SqlGenImpl extends SqlGen{
 			nomeTabela = cl.getSimpleName().toUpperCase();
 		}
 		
-		sb.append("DROP TABLE ").append(nomeTabela);
-		String fim = sb.toString();
-		System.out.println("SQL GERADO: " + fim);
-		return fim;
+		sb.append("DROP TABLE IF EXISTS ").append(nomeTabela);
+		String strSql = sb.toString();
+		System.out.println("SQL GERADO: " + strSql);
+
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement(strSql);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+
+		return ps;
 	}
 
 	@Override
@@ -303,7 +326,7 @@ public class SqlGenImpl extends SqlGen{
 			nomeTabela = cl.getSimpleName().toUpperCase();
 
 		}
-		sb.append("UPDATE ").append(nomeTabela).append(" SET CLNOME = 'MAURICIO' WHERE id = 6");
+		sb.append("UPDATE ").append(nomeTabela).append(" SET CLNOME = 'MAURICIO' WHERE id = 3");
 		
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);

@@ -21,8 +21,4 @@ public enum EstadoCivil {
 	public int getidestado() {
 		return idestado;
 	}
-
-	public int toInteger() {
-		return getidestado();
-	}
 }

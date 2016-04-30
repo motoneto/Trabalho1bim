@@ -57,7 +57,7 @@ public class SqlGenImpl extends SqlGen{
 					} else if (tipoParametro.equals(int.class)) {
 						tipoColuna = "INT";
 					} else if (tipoParametro.equals(EstadoCivil.class)) {
-						tipoColuna = "INT(1)";	
+						tipoColuna = "VARCHAR(100)";	
 					} else {
 						tipoColuna = "DESCONHECIDO";
 					}
@@ -122,8 +122,9 @@ public class SqlGenImpl extends SqlGen{
 		}
 		
 		sb.append("DROP TABLE ").append(nomeTabela);
-		System.out.println("SQL GERADO: " + sb.toString());
-		return sb.toString();
+		String fim = sb.toString();
+		System.out.println("SQL GERADO: " + fim);
+		return fim;
 	}
 
 	@Override
@@ -180,8 +181,12 @@ public class SqlGenImpl extends SqlGen{
 		}
 
 		sb.append(")VALUES(");
-		Cliente clie = (Cliente) obj;
-		sb.append("?,'"+clie.getNome()+"','"+clie.getEndereço()+"','"+clie.getTelefone()+"','"+clie.getEstadoCivil()+"'");
+		for (int i = 0; i < atributos.length; i++) {
+			if (i > 0) {
+				sb.append(", ");
+			}
+			sb.append('?');
+		}
 		sb.append(')');
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);
@@ -200,6 +205,11 @@ public class SqlGenImpl extends SqlGen{
 
 				} else if (field.getType().equals(String.class)) {
 					ps.setString(i + 1, String.valueOf(field.get(obj)));
+					
+//				} else if (tipoParametro.equals(EstadoCivil.class)) {
+//					tipoColuna = "VARCHAR(100)";
+				} else if (field.getType().equals(EstadoCivil.class)) {
+					ps.setString(i + 1, String.valueOf(field.get(obj)));	
 
 				} else {
 					throw new RuntimeException("Tipo não suportado, falta implementar.");

@@ -10,6 +10,7 @@ public class Cliente {
 	private String endereço;
 	@Coluna(nome="CLTELEFONE")
 	private String telefone;
+	@Coluna(nome="CLESTADOCIVIL")
 	private EstadoCivil estadoCivil;
 	public Cliente() {
 		this(0, null, null, null, null);

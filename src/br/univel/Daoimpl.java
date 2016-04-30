@@ -34,40 +34,39 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 		Connection con = null;
 		try {
 			con = abrirConexao();
+			PreparedStatement psInsert = s.getSqlUpdateById(con, t);
+			psInsert.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		s.getSqlUpdateById(con, t);
 	}
-
 	@Override
 	public void delete(T t) {
 		SqlGen s = new SqlGenImpl();
 		Connection con = null;
 		try {
 			con = abrirConexao();
+			s.getDropTable(con, t);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		s.getDropTable(con, t);
 	}
-
 	@Override
 	public List<T> listarTodos() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public T buscar(K k) {
 		SqlGen s = new SqlGenImpl();
 		Connection con = null;
 		try {
 			con = abrirConexao();
+			PreparedStatement psInsert = s.getSqlSelectAll(con, k);
+			psInsert.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		s.getSqlSelectAll(con, k);
 		return null;
 	}
 	@Override
@@ -76,10 +75,10 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 		Connection con = null;
 		try {
 			con = abrirConexao();
+			s.getCreateTable(con, t);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		s.getCreateTable(con, t);
 	}
 	@Override
 	public void excluir(K k) {
@@ -87,9 +86,10 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 		Connection con = null;
 		try {
 			con = abrirConexao();
+			PreparedStatement psInsert = s.getSqlDeleteById(con, k);
+			psInsert.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		s.getSqlDeleteById(con, k);
 	}
 }

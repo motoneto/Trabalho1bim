@@ -302,6 +302,7 @@ public class SqlGenImpl extends SqlGen{
 
 	@Override
 	protected PreparedStatement getSqlSelectById(Connection con, Object obj) {
+
 		Class<?> cl = obj.getClass();
 		StringBuilder sb = new StringBuilder();
 		String nomeTabela;
@@ -314,23 +315,39 @@ public class SqlGenImpl extends SqlGen{
 			nomeTabela = cl.getSimpleName().toUpperCase();
 
 		}
-		sb.append("SELECT * FROM ").append(nomeTabela).append("WHERE ID = 1");
-		System.out.println("SQL GERADO: " + sb.toString());
+		sb.append("SELECT * FROM ").append(nomeTabela).append(" WHERE ID = 1");
 		String strSql = sb.toString();
+		System.out.println("SQL GERADO: " + strSql);
+		Statement ps = null;
+		ResultSet result = null;
 
-		PreparedStatement ps = null;
-	try{
-		ps = con.prepareStatement(strSql);
-
+		try {
+			ps = con.prepareStatement(strSql);
+			try {
+				ps = con.createStatement();
+				result = ps.executeQuery(""+strSql);
+				
+				while (result.next()) {
+					int id = result.getInt(1);
+					String nome = result.getString("CLNOME");
+					String end = result.getString("CLENDEREÇO");
+					String tel = result.getString("CLTELEFONE");
+					String est = result.getString("CLESTADOCIVIL");
+					System.out.println(id + " " + nome + " " + end + " " + tel + " " +est);
+				}
+			} finally {
+				if (ps != null) ps.close();
+				if (result != null) result.close();
+			}
 	} catch (SQLException e) {
 		e.printStackTrace();
 	} catch (IllegalArgumentException e) {
 		e.printStackTrace();
 	}
 
-		return ps;
+		return null;
 	}
-
+	
 	@Override
 	protected PreparedStatement getSqlUpdateById(Connection con, Object obj) {
 		Class<?> cl = obj.getClass();

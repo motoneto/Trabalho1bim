@@ -17,7 +17,7 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 
 	}
 	@Override
-	public void salvar(T t) {
+	public void salvar(T t) {//getSqlInsert
 		SqlGen s = new SqlGenImpl();
 		Connection con = null;
 		try {
@@ -29,7 +29,7 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 		}
 	}
 	@Override
-	public void atualizar(T t) {
+	public void atualizar(T t) {//getSqlUpdateById
 		SqlGen s = new SqlGenImpl();
 		Connection con = null;
 		try {
@@ -41,7 +41,7 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 		}
 	}
 	@Override
-	public void delete(T t) {
+	public void delete(T t) {//droptable
 		SqlGen s = new SqlGenImpl();
 		Connection con = null;
 		try {
@@ -53,12 +53,12 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 		}
 	}
 	@Override
-	public List<T> listarTodos() {
+	public List<T> listarTodos() {//listatodos
 		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
-	public T buscar(K k) {
+	public T buscar(K k) {//selectall
 		SqlGen s = new SqlGenImpl();
 		Connection con = null;
 		try {
@@ -70,7 +70,7 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 		return null;
 	}
 	@Override
-	public void create(T t) {
+	public void create(T t) {//getcratetable
 		SqlGen s = new SqlGenImpl();
 		Connection con = null;
 		try {
@@ -82,13 +82,24 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 		}
 	}
 	@Override
-	public void excluir(K k) {
+	public void excluir(K k) {//deletebyid
 		SqlGen s = new SqlGenImpl();
 		Connection con = null;
 		try {
 			con = abrirConexao();
 			PreparedStatement psInsert = s.getSqlDeleteById(con, k);
 			psInsert.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public void seleciona(K k) {//selectByid
+		SqlGen s = new SqlGenImpl();
+		Connection con = null;
+		try {
+			con = abrirConexao();
+			s.getSqlSelectById(con, k);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

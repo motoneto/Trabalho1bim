@@ -17,4 +17,6 @@ public interface Dao<T, K> {
 	public void create(T t);
 	
 	public void delete(T t);
+	
+	public void seleciona(K k);
 }

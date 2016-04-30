@@ -4,7 +4,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import br.univel.EstadoCivil;
 
@@ -268,17 +270,34 @@ public class SqlGenImpl extends SqlGen{
 		sb.append("SELECT * FROM ").append(nomeTabela);
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);
-		PreparedStatement ps = null;
-	try{
-		ps = con.prepareStatement(strSql);
+		Statement ps = null;
+		ResultSet result = null;
 
+		try {
+			ps = con.prepareStatement(strSql);
+			try {
+				ps = con.createStatement();
+				result = ps.executeQuery(""+strSql);
+				
+				while (result.next()) {
+					int id = result.getInt(1);
+					String nome = result.getString("CLNOME");
+					String end = result.getString("CLENDEREÇO");
+					String tel = result.getString("CLTELEFONE");
+					String est = result.getString("CLESTADOCIVIL");
+					System.out.println(id + " " + nome + " " + end + " " + tel + " " +est);
+				}
+			} finally {
+				if (ps != null) ps.close();
+				if (result != null) result.close();
+			}
 	} catch (SQLException e) {
 		e.printStackTrace();
 	} catch (IllegalArgumentException e) {
 		e.printStackTrace();
 	}
 
-		return ps;
+		return null;
 	}
 
 	@Override

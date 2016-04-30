@@ -63,8 +63,7 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 		Connection con = null;
 		try {
 			con = abrirConexao();
-			PreparedStatement psInsert = s.getSqlSelectAll(con, k);
-			psInsert.executeQuery();
+			s.getSqlSelectAll(con, k);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

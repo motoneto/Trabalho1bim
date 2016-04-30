@@ -18,6 +18,7 @@ public class Execute {
 //		d.listarTodos();
 		d.buscar(c);
 		d.atualizar(c);
+		d.buscar(c);
 		d.excluir(c);
 		d.buscar(c);
 		d.delete(c);

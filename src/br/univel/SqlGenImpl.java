@@ -362,7 +362,7 @@ public class SqlGenImpl extends SqlGen{
 			nomeTabela = cl.getSimpleName().toUpperCase();
 
 		}
-		sb.append("UPDATE ").append(nomeTabela).append(" SET CLNOME = 'MAURICIO' WHERE id = 3");
+		sb.append("UPDATE ").append(nomeTabela).append(" SET CLNOME = 'MAURICIO' WHERE id = 1");
 		
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);
@@ -394,7 +394,7 @@ public class SqlGenImpl extends SqlGen{
 			nomeTabela = cl.getSimpleName().toUpperCase();
 
 		}
-		sb.append("DELETE FROM ").append(nomeTabela).append(" WHERE (ID = 1)");
+		sb.append("DELETE FROM ").append(nomeTabela).append(" WHERE ID = 2");
 		
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);

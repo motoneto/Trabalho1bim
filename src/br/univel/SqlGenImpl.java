@@ -157,10 +157,6 @@ public class SqlGenImpl extends SqlGen{
 		Class<?> cl = obj.getClass();
 		StringBuilder sb = new StringBuilder();
 		
-		Method[] vetorM = cl.getMethods(); 
-		for (Method m : vetorM){
-			
-		}
 		
 			String nomeTabela;
 			if (cl.isAnnotationPresent(Tabela.class)) {
@@ -231,8 +227,6 @@ public class SqlGenImpl extends SqlGen{
 				} else if (field.getType().equals(String.class)) {
 					ps.setString(i + 1, String.valueOf(field.get(obj)));
 					
-//				} else if (tipoParametro.equals(EstadoCivil.class)) {
-//					tipoColuna = "VARCHAR(100)";
 				} else if (field.getType().equals(EstadoCivil.class)) {
 					ps.setString(i + 1, String.valueOf(field.get(obj)));	
 
@@ -284,8 +278,16 @@ public class SqlGenImpl extends SqlGen{
 					String nome = result.getString("CLNOME");
 					String end = result.getString("CLENDEREÇO");
 					String tel = result.getString("CLTELEFONE");
-					String est = result.getString("CLESTADOCIVIL");
-					System.out.println(id + " " + nome + " " + end + " " + tel + " " +est);
+					int est = result.getInt("CLESTADOCIVIL");
+					String estado = null;
+					if(est == 1){
+						estado = EstadoCivil.SOLTEIRO.getestadoCiv();
+					}else if(est == 2){
+						estado = EstadoCivil.CASADO.getestadoCiv();
+					}else if(est == 3){
+						estado = EstadoCivil.VIUVO.getestadoCiv();
+					}
+				System.out.println(id + " " + nome + " " + end + " " + tel + " " +estado);
 				}
 			} finally {
 				if (ps != null) ps.close();

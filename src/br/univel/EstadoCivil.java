@@ -4,7 +4,7 @@ public enum EstadoCivil {
 	
 	SOLTEIRO("Solteiro", 1), 
 	CASADO("Casado", 2),
-	VIUVO("Casado", 3);
+	VIUVO("Viuvo", 3);
 	
 	private String estadoCiv;
 	private final int idestado;

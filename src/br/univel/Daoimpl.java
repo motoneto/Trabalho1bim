@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Daoimpl<T, K> implements Dao<T, K> {
+	private Object[] vetor = new Object[100];
 	private static Connection abrirConexao() throws SQLException {
 
 		String url = "jdbc:h2:~/BancoMauricio";
@@ -54,7 +55,7 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 	}
 	@Override
 	public List<T> listarTodos() {//listatodos
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	@Override

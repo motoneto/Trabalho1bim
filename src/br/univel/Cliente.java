@@ -11,18 +11,16 @@ public class Cliente {
 	@Coluna(nome="CLTELEFONE")
 	private String telefone;
 	@Coluna(nome="CLESTADOCIVIL")
-	private EstadoCivil estadoCivil;
-	public Cliente() {
-		this(0, null, null, null, null);
-	}
+	private int estadoCivil;
+	
 
-	public Cliente(int id, String nome, String endereço, String telefone, EstadoCivil estadocivil) {
+	public Cliente(int id, String nome, String endereço, String telefone, int i) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.endereço = endereço;
 		this.telefone = telefone;
-		this.estadoCivil = estadocivil;
+		this.estadoCivil = i;
 	}
 
 	public int getId() {
@@ -57,11 +55,11 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 
-	public EstadoCivil getEstadoCivil() {
+	public int getEstadoCivil() {
 		return estadoCivil;
 	}
 
-	public void setEstadoCivil(EstadoCivil estadoCivil) {
+	public void setEstadoCivil(int estadoCivil) {
 		this.estadoCivil = estadoCivil;
 	}
 	

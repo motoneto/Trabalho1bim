@@ -115,6 +115,7 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 	@Override
 	public void excluir(K k) {//deletebyid
 		SqlGen s = new SqlGenImpl();
+		Cliente c = new Cliente(0, null, null, null, 0);
 		Connection con = null;
 		try {
 			con = abrirConexao();

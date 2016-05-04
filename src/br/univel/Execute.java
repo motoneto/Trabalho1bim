@@ -18,7 +18,7 @@ public class Execute {
 		d.listarTodos();
 		d.buscar(c);
 		d.atualizar(c);
-		d.excluir(c2);
+		d.excluir(c);
 		d.listarTodos();
 	}
 	

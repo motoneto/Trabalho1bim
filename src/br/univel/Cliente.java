@@ -23,6 +23,10 @@ public class Cliente {
 		this.estadoCivil = i;
 	}
 
+	public Cliente() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

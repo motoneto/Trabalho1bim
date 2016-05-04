@@ -261,7 +261,7 @@ public class SqlGenImpl extends SqlGen{
 		}
 		sb.append("SELECT * FROM ").append(nomeTabela);
 		String strSql = sb.toString();
-		System.out.println("SQL GERADO: " + strSql);
+		//System.out.println("SQL GERADO: " + strSql);
 		PreparedStatement ps = null;
 
 		try {
@@ -291,7 +291,28 @@ public class SqlGenImpl extends SqlGen{
 			nomeTabela = cl.getSimpleName().toUpperCase();
 
 		}
-		sb.append("SELECT * FROM ").append(nomeTabela).append(" WHERE ID = 1");
+		SqlGen s = new SqlGenImpl();
+		Cliente t = new Cliente();
+		int ids = 0;
+		PreparedStatement p = s.getSqlSelectAll(con, t);
+		ResultSet res = null;
+		try {
+			try {
+				res = p.executeQuery();
+				while (res.next()) {
+					if(res.getInt(1) == 1){
+					ids = res.getInt(1);
+					}
+				}
+			}finally {
+					if (p != null) p.close();
+					if (res != null) res.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		sb.append("SELECT * FROM ").append(nomeTabela).append(" WHERE ID = ").append(ids);
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);
 		Statement ps = null;
@@ -338,7 +359,28 @@ public class SqlGenImpl extends SqlGen{
 			nomeTabela = cl.getSimpleName().toUpperCase();
 
 		}
-		sb.append("UPDATE ").append(nomeTabela).append(" SET CLNOME = 'MAURICIO' WHERE id = 1");
+		SqlGen s = new SqlGenImpl();
+		Cliente t = new Cliente();
+		int ids = 0;
+		PreparedStatement p = s.getSqlSelectAll(con, t);
+		ResultSet res = null;
+		try {
+			try {
+				res = p.executeQuery();
+				while (res.next()) {
+					if(res.getInt(1) == 1){
+					ids = res.getInt(1);
+					}
+				}
+			}finally {
+					if (p != null) p.close();
+					if (res != null) res.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		sb.append("UPDATE ").append(nomeTabela).append(" SET CLNOME = 'ALTERADO' WHERE id = ").append(ids);
 		
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);
@@ -370,13 +412,34 @@ public class SqlGenImpl extends SqlGen{
 			nomeTabela = cl.getSimpleName().toUpperCase();
 
 		}
-		
-		sb.append("DELETE FROM ").append(nomeTabela).append(" WHERE ID = ?");
+		SqlGen s = new SqlGenImpl();
+		Cliente t = new Cliente();
+		int id = 0;
+		PreparedStatement ps = s.getSqlSelectAll(con, t);
+		ResultSet result = null;
+		try {
+			try {
+				result = ps.executeQuery();
+				while (result.next()) {
+					if(result.getInt(1) == 2){
+					id = result.getInt(1);
+					}
+				}
+			}finally {
+					if (ps != null) ps.close();
+					if (result != null) result.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		sb.append("DELETE FROM ").append(nomeTabela).append(" WHERE ID = ").append(id);
 		
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);
 
-		PreparedStatement ps = null;
+		PreparedStatement s1 = null;
 	try{
 		ps = con.prepareStatement(strSql);
 
@@ -386,7 +449,7 @@ public class SqlGenImpl extends SqlGen{
 		e.printStackTrace();
 	}
 
-		return ps;
+	return ps;
 	}
 	
 }

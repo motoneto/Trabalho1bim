@@ -6,8 +6,6 @@ public interface Dao<T, K> {
 
 	public void salvar(T t);
 
-	public T buscar(K k);
-
 	public void atualizar(T t);
 
 	public void excluir(K k);
@@ -18,5 +16,6 @@ public interface Dao<T, K> {
 	
 	public void delete(T t);
 	
-	public void seleciona(K k);
+	public void buscar(K k);
+
 }

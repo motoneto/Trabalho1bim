@@ -15,12 +15,11 @@ public class Execute {
 		d.salvar(c);
 		d.salvar(c2);
 		d.salvar(c3);
+		d.listarTodos();
 		d.buscar(c);
-//		d.seleciona(c);
-//		d.atualizar(c);
-//		d.excluir(c2);
-//		d.buscar(c);
-//		d.delete(c);
+		d.atualizar(c);
+		d.excluir(c2);
+		d.listarTodos();
 	}
 	
 }

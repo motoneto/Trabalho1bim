@@ -1,14 +1,13 @@
 package br.univel;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import br.univel.EstadoCivil;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SqlGenImpl extends SqlGen{
 
@@ -259,47 +258,22 @@ public class SqlGenImpl extends SqlGen{
 
 		} else {
 			nomeTabela = cl.getSimpleName().toUpperCase();
-
 		}
 		sb.append("SELECT * FROM ").append(nomeTabela);
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);
-		Statement ps = null;
-		ResultSet result = null;
+		PreparedStatement ps = null;
 
 		try {
 			ps = con.prepareStatement(strSql);
-			try {
-				ps = con.createStatement();
-				result = ps.executeQuery(""+strSql);
-				
-				while (result.next()) {
-					int id = result.getInt(1);
-					String nome = result.getString("CLNOME");
-					String end = result.getString("CLENDEREÇO");
-					String tel = result.getString("CLTELEFONE");
-					int est = result.getInt("CLESTADOCIVIL");
-					String estado = null;
-					if(est == 1){
-						estado = EstadoCivil.SOLTEIRO.getestadoCiv();
-					}else if(est == 2){
-						estado = EstadoCivil.CASADO.getestadoCiv();
-					}else if(est == 3){
-						estado = EstadoCivil.VIUVO.getestadoCiv();
-					}
-				System.out.println(id + " " + nome + " " + end + " " + tel + " " +estado);
-				}
-			} finally {
-				if (ps != null) ps.close();
-				if (result != null) result.close();
-			}
+			
 	} catch (SQLException e) {
 		e.printStackTrace();
 	} catch (IllegalArgumentException e) {
 		e.printStackTrace();
 	}
 
-		return null;
+		return ps;
 	}
 
 	@Override
@@ -396,7 +370,8 @@ public class SqlGenImpl extends SqlGen{
 			nomeTabela = cl.getSimpleName().toUpperCase();
 
 		}
-		sb.append("DELETE FROM ").append(nomeTabela).append(" WHERE ID = 2");
+		
+		sb.append("DELETE FROM ").append(nomeTabela).append(" WHERE ID = ?");
 		
 		String strSql = sb.toString();
 		System.out.println("SQL GERADO: " + strSql);

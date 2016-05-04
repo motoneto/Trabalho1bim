@@ -3,7 +3,9 @@ package br.univel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Daoimpl<T, K> implements Dao<T, K> {
@@ -53,21 +55,49 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 			e.printStackTrace();
 		}
 	}
-	@Override
-	public List<T> listarTodos() {//listatodos
-		
-		return null;
-	}
-	@Override
-	public T buscar(K k) {//selectall
+	public List<T> listarTodos(){//listatodos
+		Cliente t = new Cliente(0, null, null, null, 0);
 		SqlGen s = new SqlGenImpl();
 		Connection con = null;
+		List<Cliente> array = new ArrayList<Cliente>();
 		try {
 			con = abrirConexao();
-			s.getSqlSelectAll(con, k);
+			PreparedStatement ps = s.getSqlSelectAll(con, t);
+			ResultSet result = null;
+			try {
+				result = ps.executeQuery();
+				
+				while (result.next()) {
+					int id = result.getInt(1);
+					String nome = result.getString("CLNOME");
+					String end = result.getString("CLENDEREÇO");
+					String tel = result.getString("CLTELEFONE");
+					int est = result.getInt("CLESTADOCIVIL");
+					String estado = null;
+					if(est == 1){
+						estado = EstadoCivil.SOLTEIRO.getestadoCiv();
+					}else if(est == 2){
+						estado = EstadoCivil.CASADO.getestadoCiv();
+					}else if(est == 3){
+						estado = EstadoCivil.VIUVO.getestadoCiv();
+					}
+					array.add(new Cliente(id, nome,end,tel,est));
+				for (Cliente l: array) {
+		            System.out.println("ID: \t\t\t" + l.getId());
+		            System.out.println("NOME: \t\t\t" + l.getNome());
+		            System.out.println("ENDERECO: \t\t" + l.getEndereço());
+		            System.out.println("TELEFONE: \t\t" + l.getTelefone());
+		            System.out.println("ESTADO CIVIL: \t\t" + estado);
+		        }
+				}
+			} finally {
+				if (ps != null) ps.close();
+				if (result != null) result.close();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return null;
 	}
 	@Override
@@ -95,7 +125,7 @@ public class Daoimpl<T, K> implements Dao<T, K> {
 		}
 	}
 	@Override
-	public void seleciona(K k) {//selectByid
+	public void buscar(K k) {//selectByid
 		SqlGen s = new SqlGenImpl();
 		Connection con = null;
 		try {
